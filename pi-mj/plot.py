@@ -60,8 +60,9 @@ for nt in range(len(tt)):
             n+=1
 
         Occb[nt,ng] =e_vecs[0,0] /np.sqrt(Nel1)  ## pi(m=0, j=1)        
-        Occa[nt,ng] = e_vecs[0,0] /np.sqrt(Nel2) ## pi(m=1,j=2)         
+        Occa[nt,ng] = e_vecs[1,0] /np.sqrt(Nel2) ## pi(m=1,j=2)         
 
+print Occb
 font = {'family' : 'serif',
         'color'  : 'darkred',
         'weight' : 'normal',

@@ -12,13 +12,18 @@ import matplotlib.cm as cm
 from scipy.interpolate import interp2d
 from scipy.interpolate import griddata, RectBivariateSpline
 from numpy import linalg as LA
+
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
 #ggg=np.linspace(0.1,1.0,20)
 w_0=1.0
-tt = np.linspace(0.0, 5.0, 40)
-gg = np.linspace(0.00,2.0,20 )
+tt = np.linspace(0.0,5.0,30)
+gg = np.linspace(0.0,5.0,30)
 xx  = np.array(gg)
 yy = np.array(tt)
-xx_md, yy_md = np.meshgrid(xx,yy)
+xx_md1, yy_md1 = np.meshgrid(xx,yy)
+xx_md2, yy_md2 = np.meshgrid(xx,yy)
 #print "xmd",xx_md
 #print "ymd", yy_md
 
@@ -67,39 +72,43 @@ for nt in range(len(tt)):
 font = {'family' : 'serif',
         'color'  : 'darkred',
         'weight' : 'normal',
-        'size'   : 14,}
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib.ticker import LinearLocator, FormatStrFormatter
+        'size'   : 16,}
 fig = plt.figure()
 #plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.05,hspace=None)
 ax1 = fig.add_subplot(121, projection='3d')
 ax2 = fig.add_subplot(122,projection='3d')
-
 ax1.set_title('(a) $n^{bos}(m=0)$ ' ,fontdict=font)
 ax2.set_title('(b) $n^{bos}(m=1)$' ,fontdict=font)
 #ax3.set_title('(b) $v_2$' ,fontdict=font)
-
-ax1.set_xlabel('$g$ (eV)',fontdict=font)
-ax1.set_ylabel('$t$ (eV)',fontdict=font)
-ax2.set_xlabel('$g$ (eV)',fontdict=font)
-ax2.set_ylabel('$t$ (eV)',fontdict=font)
+ax1.set_xlabel('$g$ ',fontdict=font)
+ax1.set_ylabel('$t$ ',fontdict=font)
+ax2.set_xlabel('$g$ ',fontdict=font)
+ax2.set_ylabel('$t$ ',fontdict=font)
 ax1.set_zlabel('$n$',fontdict=font)
 ax2.set_zlabel('$n$',fontdict=font)
 
-ax1.plot_wireframe(xx_md, yy_md, Occm1)
+ax1.plot_surface(xx_md1, yy_md1, Occm1, cmap=cm.coolwarm, linewidth=0.1,
+                 antialiased=False)
+#ax1.plot_wireframe(xx_md, yy_md, Occm1)
 #ax1.zaxis.set_major_locator(LinearLocator(8))
 #ax1.zaxis.set_major_formatter(FormatStrFormatter('%.01f'))
-ax2.plot_wireframe(xx_md, yy_md, Occm2)
+#ax2.plot_wireframe(xx_md, yy_md, Occm2)
+ax2.plot_surface(xx_md2, yy_md2, Occm2, cmap=cm.coolwarm, linewidth=0.1,
+                 antialiased=False)
 #ax2.zaxis.set_major_locator(LinearLocator(8))
 #ax2.zaxis.set_major_formatter(FormatStrFormatter('%.01f'))
 
 #ax1.axis([0,1 ,0,1])
 #ax2.axis([0,1 ,0,1])
-
+# Customize the z axis.
+#ax.set_zlim(-1.01, 1.01)
+#ax.zaxis.set_major_locator(LinearLocator(10))
+#ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
 
 #ax3.scatter(xx_md, yy_md, V3_md)
 #ax3.zaxis.set_major_locator(LinearLocator(10))
 plt.tight_layout()
+
 plt.savefig('Occ-boson.pdf', format='pdf')
 plt.savefig('Occ-boson.eps', format='eps')
 #
